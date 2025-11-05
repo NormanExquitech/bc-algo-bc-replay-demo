@@ -4,6 +4,8 @@
 *.g.xlf
 .DS_Store
 Thumbs.db
+TestResults*.xml
+bcptTestResults*.json
 BuildOutput.txt
 rad.json
 .output/
@@ -17,3 +19,7 @@ rad.json
 .snapshots/
 cache_*
 ~$*
+bc-algo-bc-replay-demo.code-workspace
+node_modules/*
+package-lock.json
+package.json
