@@ -1,8 +1,8 @@
-name: Recording
+name: post-sales-invoice
 description: Test recording
-telemetryId: 4d4b6c67-7f95-4573-953a-12f214572e42
+telemetryId: c4ea566a-20e9-4eb5-bb78-8e3c66ab7771
 start:
-  profile: BUSINESS MANAGER
+  profile: BUSINESS MANAGER EVALUATION
 steps:
   - type: navigate
     target:
@@ -13,12 +13,12 @@ steps:
     source:
       page: Sales Order List
     modal: false
-    runtimeId: b8n
+    runtimeId: b69
     description: Page <caption>Sales Orders</caption> was shown.
   - type: invoke
     target:
       - page: Sales Order List
-        runtimeRef: b8n
+        runtimeRef: b69
       - action: Control_New
     invokeType: New
     description: Invoke New on <caption>New</caption>
@@ -26,58 +26,44 @@ steps:
     source:
       page: Sales Order
     modal: false
-    runtimeId: bh3
+    runtimeId: bex
     description: Page <caption>New - Sales Order</caption> was shown.
   - type: focus
     target:
       - page: Sales Order
-        runtimeRef: bh3
+        runtimeRef: bex
       - field: Sell-to Customer No.
     description: Focus <caption>Customer No.</caption>
-  - type: focus
-    target:
-      - page: Sales Order
-        runtimeRef: bh3
-      - field: Sell-to Customer Name
-    description: Focus <caption>Customer Name</caption>
   - type: invoke
     target:
       - page: Sales Order
-        runtimeRef: bh3
-      - field: Sell-to Customer Name
+        runtimeRef: bex
+      - field: Sell-to Customer No.
     invokeType: Lookup
-    description: Invoke Lookup on <caption>Customer Name</caption>
+    description: Invoke Lookup on <caption>Customer No.</caption>
   - type: page-shown
     source:
-      page: lookup:Sell-to Customer Name
+      page: lookup:Sell-to Customer No.
     modal: false
-    runtimeId: b13o
+    runtimeId: b130
     description: Page <caption>Select</caption> was shown.
-  - type: set-current-row
-    target:
-      - page: lookup:Sell-to Customer Name
-        runtimeRef: b13o
-      - repeater: repeater
-    targetRecord:
-      relative: 1
-    description: Set current row in <caption>repeater</caption>
   - type: invoke
     target:
-      - page: lookup:Sell-to Customer Name
-        runtimeRef: b13o
+      - page: lookup:Sell-to Customer No.
+        runtimeRef: b130
       - repeater: repeater
     parameters:
-      AlwaysCommit: false
+      AlwaysCommit: true
     description: Invoke row on <caption>repeater</caption>
   - type: page-closed
     source:
-      page: lookup:Sell-to Customer Name
-    runtimeId: b13o
+      page: lookup:Sell-to Customer No.
+    runtimeId: b130
     description: Page <caption>Select</caption> was closed.
   - type: input
     target:
       - page: Sales Order
-        runtimeRef: bh3
+        runtimeRef: bex
       - part: SalesLines
       - page: Sales Order Subform
       - repeater: Control1
@@ -88,7 +74,7 @@ steps:
   - type: focus
     target:
       - page: Sales Order
-        runtimeRef: bh3
+        runtimeRef: bex
       - part: SalesLines
       - page: Sales Order Subform
       - repeater: Control1
@@ -98,25 +84,35 @@ steps:
     source:
       page: lookup:No.
     modal: false
-    runtimeId: b14x
+    runtimeId: b14y
     description: Page <caption>Select</caption> was shown.
   - type: invoke
     target:
       - page: lookup:No.
-        runtimeRef: b14x
+        runtimeRef: b14y
+      - repeater: repeater
+      - field: "1"
+    invokeType: SortColumn
+    parameters:
+      sortOrder: 1
+    description: Invoke SortColumn on <caption>No.</caption>
+  - type: invoke
+    target:
+      - page: lookup:No.
+        runtimeRef: b14y
       - repeater: repeater
     parameters:
-      AlwaysCommit: false
+      AlwaysCommit: true
     description: Invoke row on <caption>repeater</caption>
   - type: page-closed
     source:
       page: lookup:No.
-    runtimeId: b14x
+    runtimeId: b14y
     description: Page <caption>Select</caption> was closed.
   - type: input
     target:
       - page: Sales Order
-        runtimeRef: bh3
+        runtimeRef: bex
       - part: SalesLines
       - page: Sales Order Subform
       - repeater: Control1
@@ -128,12 +124,12 @@ steps:
     source:
       page: lookup:Location Code
     modal: false
-    runtimeId: b15w
+    runtimeId: b15r
     description: Page <caption>Select</caption> was shown.
   - type: set-current-row
     target:
       - page: lookup:Location Code
-        runtimeRef: b15w
+        runtimeRef: b15r
       - repeater: repeater
     targetRecord:
       relative: 1
@@ -141,48 +137,30 @@ steps:
   - type: invoke
     target:
       - page: lookup:Location Code
-        runtimeRef: b15w
+        runtimeRef: b15r
       - repeater: repeater
     parameters:
-      AlwaysCommit: false
+      AlwaysCommit: true
     description: Invoke row on <caption>repeater</caption>
   - type: page-closed
     source:
       page: lookup:Location Code
-    runtimeId: b15w
+    runtimeId: b15r
     description: Page <caption>Select</caption> was closed.
   - type: input
     target:
       - page: Sales Order
-        runtimeRef: bh3
+        runtimeRef: bex
       - part: SalesLines
       - page: Sales Order Subform
       - repeater: Control1
       - field: Quantity
     value: "10"
     description: Input <value>10</value> into <caption>Quantity</caption>
-  - type: input
-    target:
-      - page: Sales Order
-        runtimeRef: bh3
-      - part: SalesLines
-      - page: Sales Order Subform
-      - repeater: Control1
-      - field: Unit Price
-    value: "100"
-    description: Input <value>100</value> into <caption>Unit Price Excl. VAT</caption>
-  - type: focus
-    target:
-      - page: Sales Order
-        runtimeRef: bh3
-      - field: null
-        automationId: fb8cccf3-54ac-4d77-9ad8-136cec25583a
-        caption: null
-    description: Focus <caption>null</caption>
   - type: invoke
     target:
       - page: Sales Order
-        runtimeRef: bh3
+        runtimeRef: bex
       - action: Post
     parameters: {}
     description: Invoke <caption>Post...</caption>
@@ -192,147 +170,20 @@ steps:
       automationId: 8da61efd-0002-0003-0507-0b0d1113171d
       caption: Choose
     modal: true
-    runtimeId: b16d
+    runtimeId: b16b
     description: Page <caption>Choose</caption> was shown.
   - type: invoke
     target:
       - page: null
         automationId: 8da61efd-0002-0003-0507-0b0d1113171d
         caption: Choose
-        runtimeRef: b16d
+        runtimeRef: b16b
     invokeType: Ok
     description: Invoke Ok on <caption>Choose</caption>
   - type: page-closed
     source:
       page: null
-    runtimeId: b16d
-    description: Page <caption>Choose</caption> was closed.
-  - type: page-shown
-    source:
-      page: Error Messages
-    modal: false
-    runtimeId: b16k
-    description: Page <caption>Error Messages</caption> was shown.
-  - type: close-page
-    target:
-      - page: Error Messages
-        runtimeRef: b16k
-    description: Close page <caption>Error Messages</caption>
-  - type: page-closed
-    source:
-      page: Error Messages
-    runtimeId: b16k
-    description: Page <caption>Error Messages</caption> was closed.
-  - type: invoke
-    target:
-      - page: Sales Order
-        runtimeRef: bh3
-      - part: SalesLines
-      - page: Sales Order Subform
-      - repeater: Control1
-      - field: No.
-    invokeType: Lookup
-    description: Invoke Lookup on <caption>No.</caption>
-  - type: page-shown
-    source:
-      page: lookup:No.
-    modal: false
-    runtimeId: b192
-    description: Page <caption>Select</caption> was shown.
-  - type: set-current-row
-    target:
-      - page: lookup:No.
-        runtimeRef: b192
-      - repeater: repeater
-    targetRecord:
-      relative: 5
-    description: Set current row in <caption>repeater</caption>
-  - type: invoke
-    target:
-      - page: lookup:No.
-        runtimeRef: b192
-      - repeater: repeater
-    parameters:
-      AlwaysCommit: false
-    description: Invoke row on <caption>repeater</caption>
-  - type: page-closed
-    source:
-      page: lookup:No.
-    runtimeId: b192
-    description: Page <caption>Select</caption> was closed.
-  - type: input
-    target:
-      - page: Sales Order
-        runtimeRef: bh3
-      - part: SalesLines
-      - page: Sales Order Subform
-      - repeater: Control1
-      - field: Location Code
-    value: ""
-    isFilterAsYouType: true
-    description: Input <value></value> into <caption>Location Code</caption>
-  - type: page-shown
-    source:
-      page: lookup:Location Code
-    modal: false
-    runtimeId: b19y
-    description: Page <caption>Select</caption> was shown.
-  - type: set-current-row
-    target:
-      - page: lookup:Location Code
-        runtimeRef: b19y
-      - repeater: repeater
-    targetRecord:
-      relative: 1
-    description: Set current row in <caption>repeater</caption>
-  - type: invoke
-    target:
-      - page: lookup:Location Code
-        runtimeRef: b19y
-      - repeater: repeater
-    parameters:
-      AlwaysCommit: false
-    description: Invoke row on <caption>repeater</caption>
-  - type: page-closed
-    source:
-      page: lookup:Location Code
-    runtimeId: b19y
-    description: Page <caption>Select</caption> was closed.
-  - type: focus
-    target:
-      - page: Sales Order
-        runtimeRef: bh3
-      - field: null
-        automationId: fb8cccf3-54ac-4d77-9ad8-136cec25583a
-        caption: null
-    description: Focus <caption>null</caption>
-  - type: invoke
-    target:
-      - page: Sales Order
-        runtimeRef: bh3
-      - action: Post
-    parameters: {}
-    description: Invoke <caption>Post...</caption>
-  - type: page-shown
-    source:
-      page: null
-      automationId: 8da61efd-0002-0003-0507-0b0d1113171d
-      caption: Choose
-    modal: true
-    runtimeId: b1ai
-    description: Page <caption>Choose</caption> was shown.
-  - type: invoke
-    target:
-      - page: null
-        automationId: 8da61efd-0002-0003-0507-0b0d1113171d
-        caption: Choose
-        runtimeRef: b1ai
-    invokeType: Ok
-    description: Invoke Ok on <caption>Choose</caption>
-  - type: page-closed
-    source:
-      page: null
-    runtimeId: b1ai
+    runtimeId: b16b
     description: Page <caption>Choose</caption> was closed.
   - type: page-shown
     source:
@@ -340,29 +191,29 @@ steps:
       automationId: 8da61efd-0002-0003-0507-0b0d1113171d
       caption: Confirm
     modal: true
-    runtimeId: b1ao
+    runtimeId: b16h
     description: Page <caption>Confirm</caption> was shown.
   - type: invoke
     target:
       - page: null
         automationId: 8da61efd-0002-0003-0507-0b0d1113171d
         caption: Confirm
-        runtimeRef: b1ao
+        runtimeRef: b16h
     invokeType: Yes
     description: Invoke Yes on <caption>Confirm</caption>
   - type: page-closed
     source:
       page: null
-    runtimeId: b1ao
+    runtimeId: b16h
     description: Page <caption>Confirm</caption> was closed.
   - type: page-closed
     source:
       page: Sales Order
-    runtimeId: bh3
+    runtimeId: bex
     description: Page <caption>Sales Order</caption> was closed.
   - type: page-shown
     source:
       page: Posted Sales Invoice
     modal: false
-    runtimeId: b1ay
+    runtimeId: b16r
     description: Page <caption>Posted Sales Invoice</caption> was shown.
